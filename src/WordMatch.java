@@ -4,29 +4,55 @@ public class WordMatch {
     /** The secret string. */
     private String secret;
 
-    /**
-     * Length of the secret word.
-     * @author Abrar
-     **/
-    private int secretLength;
-
-    /** Constructs a WordMatch object with the given secret string of lowercase lettes. */
+    /** Constructs a WordMatch object with the given secret string of lowercase letters. */
     public WordMatch(String word) {
         this.secret = word;
-        this.secretLength = word.length();
     }
 
     /** Returns a score for guess, as described in part (a).
      *  Precondition: 0 < guess.length() <= secret.length()
      */
     public int scoreGuess(String guess) {
-        int score = 0;
-        for (int i = 0; i <= secret.length() - guess.length(); i ++) {
-            if (secret.substring(i, i + guess.length()).equals(guess)) {
-                score ++;
+        int occurences = 0;
+        int secretLength = secret.length();
+        int guessLength = guess.length();
+        /*
+            Finding occurences:
+            Sample case: "mississippi"
+            - "i": 4
+            - "iss": 2
+            - "issipp": 1
+            - "mississippi": 1
+         */
+        for (int i = 0; i <= secretLength - guessLength; i ++) {
+            // mississippi
+            // ississippi
+            // ssissippi
+            // sissippi
+            // issippi
+            // ssippi
+            // sippi
+            // ippi
+            // ppi
+            // pp
+            // i
+
+            // so don't do every substring that includes it. if that was the case then occurrences would be 11 which is not right
+            // count all the substrings that start with guess
+            // if the guess was i then ississippi would be right
+            // so substring 0 to guess length (1) equals guess
+            // ✅
+            // also do not go too far
+            // if i is 9 and guess is 3 then that is invalid
+            // if i is 9 and guess is 3 there are no more occurrences
+            // oh this goes back in the for loop
+            String substring = secret.substring(i, i + guessLength);
+            if (Objects.equals(substring, guess)) {
+                occurences ++;
             }
         }
-        return score * guess.length() * guess.length();
+        return occurences * guessLength * guessLength;
+
     }
 
     /** Returns the better of two guesses, as determined by scoreGuess and the rules for a
