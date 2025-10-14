@@ -16,36 +16,7 @@ public class WordMatch {
         int occurences = 0;
         int secretLength = secret.length();
         int guessLength = guess.length();
-        /*
-            Finding occurences:
-            Sample case: "mississippi"
-            - "i": 4
-            - "iss": 2
-            - "issipp": 1
-            - "mississippi": 1
-         */
         for (int i = 0; i <= secretLength - guessLength; i ++) {
-            // mississippi
-            // ississippi
-            // ssissippi
-            // sissippi
-            // issippi
-            // ssippi
-            // sippi
-            // ippi
-            // ppi
-            // pp
-            // i
-
-            // so don't do every substring that includes it. if that was the case then occurrences would be 11 which is not right
-            // count all the substrings that start with guess
-            // if the guess was i then ississippi would be right
-            // so substring 0 to guess length (1) equals guess
-            // ✅
-            // also do not go too far
-            // if i is 9 and guess is 3 then that is invalid
-            // if i is 9 and guess is 3 there are no more occurrences
-            // oh this goes back in the for loop
             String substring = secret.substring(i, i + guessLength);
             if (Objects.equals(substring, guess)) {
                 occurences ++;
@@ -61,6 +32,18 @@ public class WordMatch {
      *               guess1 is not the same as guess2.
      */
     public String findBetterGuess(String guess1, String guess2) {
-        return null;
+        int scoreOfGuess1 = scoreGuess(guess1);
+        int scoreOfGuess2 = scoreGuess(guess2);
+        if (scoreOfGuess1 > scoreOfGuess2) {
+            return guess1;
+        }
+        else if (scoreOfGuess2 > scoreOfGuess1) {
+            return guess2;
+        }
+        int comparison = guess1.compareTo(guess2);
+        if (comparison > 0) {
+            return guess1;
+        }
+        return guess2;
     }
 }
