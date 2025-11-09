@@ -32,6 +32,7 @@ public class Main {
         System.out.println(read());
     }
 
+    // 14646
     public static int read() throws FileNotFoundException {
         int totalScore = 0;
 
